@@ -14,6 +14,7 @@ import UIKit
 open class MaterialVerticalButton: UIControl {
     
     open var imageView: UIImageView!
+    open var shouldUseEffects: Bool = true
     /**
      The icon of the button. Made exposed to storyboard.
     */
@@ -22,12 +23,19 @@ open class MaterialVerticalButton: UIControl {
             self.imageView.image = self.icon
         }
     }
+    
     /**
      The boolean to set whether the segment control displays the original color of the icon.
      */
     @IBInspectable public var preserveIconColor: Bool = false {
         didSet {
             self.icon = preserveIconColor ? self.icon : self.icon.colored(foregroundColor)!
+        }
+    }
+    
+    @IBInspectable public var useEffects: Bool = true {
+        didSet {
+            self.shouldUseEffects = useEffects
         }
     }
     open var label: UILabel!
@@ -123,11 +131,16 @@ open class MaterialVerticalButton: UIControl {
     */
     @IBInspectable open var foregroundColor: UIColor = .white {
         didSet {
-            self.label.textColor = foregroundColor
-            self.icon = preserveIconColor ? icon : icon.colored(foregroundColor)!
+            self.setTextColor(color: foregroundColor)
         }
     }
-  
+    
+    @IBInspectable open var selectedForegroundColor: UIColor = .red {
+        didSet {
+            self.setTextColor(color: selectedForegroundColor)
+        }
+    }
+    
     open lazy var rippleLayer: RippleLayer = RippleLayer(withView: self)
     
     override public init(frame: CGRect) {
@@ -140,6 +153,11 @@ open class MaterialVerticalButton: UIControl {
         defaultSetup()
     }
     
+    func setTextColor(color: UIColor) {
+        self.label.textColor = color
+        self.icon = preserveIconColor ? icon : icon.colored(color)!
+    }
+    
     private func defaultSetup() {
         imageView = UIImageView()
         label = UILabel()
@@ -150,17 +168,25 @@ open class MaterialVerticalButton: UIControl {
     /**
      Convenience init of material design vertical aligned button with required parameters.
      
-     - Parameter icon:            The icon of the button.
-     - Parameter text:            The title of the button.
-     - Parameter font:            The font of the button title.
-     - Parameter foregroundColor: The foreground color of the button. It applies to title. It applies to icon if the useOriginalImg is false.
-     - Parameter bgColor:         The background color of the button.
-     - Parameter useOriginalImg:  To determine whether use the original button image or paint it with color.
-     - Parameter cornerRadius:    The corner radius of the button. Used to set rounded corner.
+     - Parameter icon:                      The icon of the button.
+     - Parameter text:                      The title of the button.
+     - Parameter font:                      The font of the button title.
+     - Parameter foregroundColor:           The foreground color of the button. It applies to title. It applies to icon if the useOriginalImg is false.
+     - Parameter bgColor:                   The background color of the button.
+     - Parameter selectedForegroundColor:   The foreground color of the selected button. It applies to title. It applies to icon if the useOriginalImg is false.
+     - Parameter useOriginalImg:            To determine whether use the original button image or paint it with color.
+     - Parameter cornerRadius:              The corner radius of the button. Used to set rounded corner.
     */
-    public convenience init(icon: UIImage, text: String, font: UIFont? = nil,
-                            foregroundColor: UIColor, bgColor: UIColor, borderColor: UIColor? = nil,
-                            preserveIconColor: Bool = true, cornerRadius: CGFloat = 0.0) {
+    public convenience init(icon: UIImage,
+                            text: String,
+                            font: UIFont? = nil,
+                            foregroundColor: UIColor,
+                            bgColor: UIColor,
+                            selectedForegroundColor: UIColor? = .red,
+                            borderColor: UIColor? = nil,
+                            preserveIconColor: Bool = true,
+                            cornerRadius: CGFloat = 0.0,
+                            useEffects: Bool = true) {
         self.init()
         
         if let font = font {
@@ -171,6 +197,7 @@ open class MaterialVerticalButton: UIControl {
             self.label.text = text
             self.icon = icon
             self.preserveIconColor = preserveIconColor
+            self.shouldUseEffects = useEffects
             self.foregroundColor = foregroundColor
             self.cornerRadius = cornerRadius
             if let borderColor = borderColor {
@@ -194,15 +221,15 @@ open class MaterialVerticalButton: UIControl {
      - Parameter cornerRadius:   The corner radius of the button. Used to set rounded corner.
     */
     @available(iOS 13.0, *)
-    public convenience init(icon: UIImage, text: String, font: UIFont? = nil,
-                            preserveIconColor: Bool = true, cornerRadius: CGFloat = 0.0, buttonStyle: VerticalButtonStyle) {
+    public convenience init(icon: UIImage, text: String, font: UIFont? = nil, foregroundColor: UIColor? = .label, selectedForegroundColor: UIColor? = .red, bgColor: UIColor? = .clear,
+                            preserveIconColor: Bool = true, cornerRadius: CGFloat = 0.0, buttonStyle: VerticalButtonStyle, useEffects: Bool = true) {
         switch buttonStyle {
-        case .fill:
-            self.init(icon: icon, text: text, font: font, foregroundColor: .label, bgColor: .systemGray3,
-                      preserveIconColor: preserveIconColor, cornerRadius: cornerRadius)
-        case .outline:
-            self.init(icon: icon, text: text, font: font, foregroundColor: .label, bgColor: .clear, borderColor: .label,
-                      preserveIconColor: preserveIconColor, cornerRadius: cornerRadius)
+            case .fill:
+                self.init(icon: icon, text: text, font: font, foregroundColor: foregroundColor ?? .label, bgColor: bgColor ?? .systemGray3,
+                          preserveIconColor: preserveIconColor, cornerRadius: cornerRadius, useEffects: useEffects)
+            case .outline:
+                self.init(icon: icon, text: text, font: font, foregroundColor: foregroundColor ?? .label, bgColor: bgColor ?? .clear, borderColor: .label,
+                          preserveIconColor: preserveIconColor, cornerRadius: cornerRadius, useEffects: useEffects)
         }
     }
     
@@ -250,17 +277,26 @@ open class MaterialVerticalButton: UIControl {
     
     open override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesBegan(touches, with: event)
-        rippleLayer.touchesBegan(touches: touches, withEvent: event)
+        if shouldUseEffects {
+            setTextColor(color: self.selectedForegroundColor)
+            rippleLayer.touchesBegan(touches: touches, withEvent: event)
+        }
     }
     
     open override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesEnded(touches, with: event)
-        rippleLayer.touchesEnded(touches: touches, withEvent: event)
+        if shouldUseEffects {
+            setTextColor(color: self.foregroundColor)
+            rippleLayer.touchesEnded(touches: touches, withEvent: event)
+        }
     }
     
     open override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         super.touchesCancelled(touches, with: event)
-        rippleLayer.touchesCancelled(touches: touches, withEvent: event)
+        if useEffects {
+            setTextColor(color: self.foregroundColor)
+            rippleLayer.touchesCancelled(touches: touches, withEvent: event)
+        }
     }
     
     open override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
