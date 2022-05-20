@@ -1,0 +1,22 @@
+{
+    "name": "MaterialDesignWidgets",
+    "version": "0.0.9",
+    "license": {
+        "type": "zlib",
+        "file": "LICENCE.md"
+    },
+    "summary": "This framework give you full flexibility to apply any material design widget you would like to use in your app! Please see below steps if you only need to use one or two of the entire package widgets.",
+    "homepage": "https://github.com/andrevneves/material-design-widgets-lite-ios",
+    "authors": {
+        "Michael T. Ho": ""
+    },
+    "source": {
+        "git": "https://github.com/twho/material-design-widgets-lite-ios.git",
+        "tag": "0.0.9"
+    },
+    "requires_arc": true,
+    "platforms": {
+        "ios": "4.3",
+        "osx": "10.6"
+    }
+}
