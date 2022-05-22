@@ -4,9 +4,9 @@
 //
 //  Created by Le Van Nghia on 11/15/14.
 //  Modified by Michael Ho on 4/11/19.
-//  Copyright © 2019 Michael T. Ho. All rights reserved.
+//  Modified by Andre Neves on 5/20/22
 //
-//  Ref: https://github.com/sharad-paghadal/MaterialKit/tree/master/Source
+//  Ref: https://github.com/andrevneves/material-design-widgets-lite-ios
 
 import UIKit
 

@@ -1,8 +1,8 @@
 #
-#  Be sure to run `pod spec lint MaterialDesignWidgets.podspec' to ensure this is a
+#  Be sure to run `pod spec lint material-design-widgets-lite-ios.podspec' to ensure this is a
 #  valid spec and to remove all comments including this before submitting the spec.
 #
-#  To learn more about Podspec attributes see https://docs.cocoapods.org/specification.html
+#  To learn more about Podspec attributes see https://guides.cocoapods.org/syntax/podspec.html
 #  To see working Podspecs in the CocoaPods repo see https://github.com/CocoaPods/Specs/
 #
 
@@ -15,18 +15,19 @@ Pod::Spec.new do |spec|
   #  summary should be tweet-length, and the description more in depth.
   #
 
-  spec.name         = "MaterialDesignWidgets"
-  spec.version      = "0.1.1"
-  spec.summary      = "Implementation of material design widgets."
+  spec.name         = "material-design-widgets-lite-ios"
+  spec.version      = "0.1.2"
+  spec.summary      = "Material design styled buttons, vertically arranged buttons, activity loader and loading button."
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
-  spec.description  = "Material design styled buttons, vertically arranged buttons, segmented controls, activity loaders and loading buttons."
+  spec.description  = <<-DESC
+                   DESC
 
-  spec.homepage     = "https://github.com/twho/MaterialDesignWidgets-iOS-Lightweight/tree/master"
+  spec.homepage     = "https://github.com/andrevneves/material-design-widgets-lite-ios"
   # spec.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -37,7 +38,8 @@ Pod::Spec.new do |spec|
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
 
-  spec.license      = { :type => "MIT", :file => "LICENSE" }
+  spec.license      = "MIT (example)"
+  # spec.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -50,8 +52,10 @@ Pod::Spec.new do |spec|
   #  profile URL.
   #
 
-  spec.author             = { "Michael Ho" => "tsungwei50521@gmail.com" }
-  # spec.social_media_url   = "https://twitter.com/Michael Ho"
+  spec.author             = { "Andre Vicente Neves" => "email@address.com" }
+  # Or just: spec.author    = "Andre Vicente Neves"
+  # spec.authors            = { "Andre Vicente Neves" => "email@address.com" }
+  # spec.social_media_url   = "https://twitter.com/Andre Vicente Neves"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -59,7 +63,8 @@ Pod::Spec.new do |spec|
   #  the deployment target. You can optionally include the target after the platform.
   #
 
-  spec.platform     = :ios, "11.0"
+  # spec.platform     = :ios
+  # spec.platform     = :ios, "5.0"
 
   #  When using multiple platforms
   # spec.ios.deployment_target = "5.0"
@@ -74,7 +79,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/twho/MaterialDesignWidgets-iOS-Lightweight.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/andrevneves/material-design-widgets-lite-ios.git", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -85,8 +90,8 @@ Pod::Spec.new do |spec|
   #  Not including the public_header_files will make all headers public.
   #
 
-spec.source_files  = "MaterialDesignWidgets", "MaterialDesignWidgets/**/*.{swift,h,m}"
-  spec.exclude_files = "MaterialDesignWidgets/MaterialDesignWidgetsDemo/**", "MaterialDesignWidgetsDemo/**", "MaterialDesignWidgets/MaterialDesignWidgetsTests/**"
+  spec.source_files  = "Classes", "Classes/**/*.{h,m}"
+  spec.exclude_files = "Classes/Exclude"
 
   # spec.public_header_files = "Classes/**/*.h"
 
@@ -128,7 +133,5 @@ spec.source_files  = "MaterialDesignWidgets", "MaterialDesignWidgets/**/*.{swift
 
   # spec.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # spec.dependency "JSONKit", "~> 1.4"
-
-  spec.swift_version = "5.0"
 
 end
